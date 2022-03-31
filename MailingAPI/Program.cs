@@ -12,6 +12,8 @@ var dbContext = new MailingDB(dbContextOptions);
 builder.Services.AddDbContext<MailingDB>(opt => opt.UseInMemoryDatabase("PostOffice"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
+app.MapGet("/", () => "PostOfficeAPI");
+app.Run();
 #endregion
 
 #region Post Office API
@@ -162,8 +164,7 @@ new Timer(
     TimeSpan.FromMinutes(1));
 #endregion
 
-app.MapGet("/", () => "PostOfficeAPI");
-app.Run();
+
 
 class MailingDB : DbContext
 {
