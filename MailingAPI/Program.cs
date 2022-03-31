@@ -91,24 +91,28 @@ app.MapPost("/pkg/{id}/{status}", async (int id, TrackingStatus status, MailingD
     return Results.Ok();
 });
 
-app.MapPut("/pkg/{id}", async (int id, PostOffice _po, MailingDB db) =>
+app.MapPut("/pkg/{id}", async (int id, Package _pkg, MailingDB db) =>
 {
-    var po = await db.PostOffices.FindAsync(id);
-    if (po is null) return Results.NotFound();
-    po.Name = _po.Name;
-    po.Address = _po.Address;
-    po.ZipCode = _po.ZipCode;
+    var pkg = await db.Packages.FindAsync(id);
+    if (pkg is null) return Results.NotFound();
+    pkg.Type = _pkg.Type;
+    pkg.RecipientAddress = _pkg.RecipientAddress;
+    pkg.TrackingNumber = _pkg.TrackingNumber;
+    pkg.RecipientName = _pkg.RecipientName;
+    pkg.RecipientAddress = _pkg.RecipientAddress;
+    pkg.RecipientZipCode = _pkg.RecipientZipCode;
+    pkg.TrackingNumber = _pkg.TrackingNumber;
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
 
 app.MapDelete("/pkg/{id}", async (int id, MailingDB db) =>
 {
-    if (await db.PostOffices.FindAsync(id) is PostOffice po)
+    if (await db.Packages.FindAsync(id) is Package pkg)
     {
-        db.PostOffices.Remove(po);
+        db.Packages.Remove(pkg);
         await db.SaveChangesAsync();
-        return Results.Ok(po);
+        return Results.Ok(pkg);
     }
     return Results.NotFound();
 });

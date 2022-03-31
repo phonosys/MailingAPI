@@ -1,4 +1,4 @@
-﻿MailingAPI
+﻿POST OFFICE API snippet (no error handling)
 
 /po for PostOffice API
 /pkg for Packages
