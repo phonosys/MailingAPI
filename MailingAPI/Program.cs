@@ -71,7 +71,7 @@ app.MapGet("/pkg", async (MailingDB db) =>
 app.MapGet("/pkg/{trackingNumber}", async (string trackingNumber, MailingDB db) =>
     await db.Packages.FirstOrDefaultAsync(x => x.TrackingNumber == trackingNumber)
         is Package pkg
-            ? Results.Ok(pkg.TrackingHistory.Count == 0 ? "No Tracking Information" : pkg.TrackingNumber)
+            ? Results.Ok(pkg.TrackingHistory.Count == 0 ? "No Tracking Information" : pkg.TrackingHistory)
             : Results.NotFound("Package not found."));
 
 app.MapPost("/pkg", async (Package _pkg, MailingDB db) =>
